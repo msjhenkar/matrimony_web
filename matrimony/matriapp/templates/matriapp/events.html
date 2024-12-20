@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Events</title>
+    <!-- Load static files -->
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif; /* Applied Google Font */
+            background-color: #fff; /* White background */
+            margin: 0; /* Remove default margin */
+            padding-top: 70px; /* Adjust for smaller navbar */
+        }
+        .navbar {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            background-color: #E57373; /* Midlight red color */
+            padding: 0 10px; /* Minimized padding */
+        }
+        .content {
+            display: flex;
+            justify-content: flex-start;
+            padding: 20px;
+        }
+        .content-left {
+            width: 25%;
+            padding-right: 20px;
+        }
+        .content-right {
+            width: 75%;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2rem; /* Larger font size for heading */
+            font-weight: bold; /* Bold font */
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        ul {
+            list-style-type: none; /* Remove bullet points */
+            padding: 0; /* Remove padding */
+        }
+        li {
+            margin-bottom: 20px; /* Space between events */
+            padding: 10px;
+            border: 1px solid #ccc; /* Add border */
+            border-radius: 5px; /* Rounded corners */
+            background-color: #f9f9f9; /* Light background color */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+        hr {
+            border-top: 1px solid #eee;
+        }
+        .btn-custom {
+            background-color: #E57373;
+            color: white;
+            border: none;
+            border-radius: 8px; /* Rounded corners */
+            padding: 10px 20px; /* Padding for button */
+            font-weight: bold; /* Bold text */
+            transition: background-color 0.3s, transform 0.3s; /* Transition effects */
+        }
+        .btn-custom:hover {
+            background-color: #d64d4d; /* Darker shade for hover */
+            transform: scale(1.05); /* Slightly enlarge button on hover */
+        }
+        .navbar-brand img {
+            border-radius: 50%;
+            height: 30px;
+            width: 30px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'images/matrilogo.jpg' %}" alt="Logo">
+        </a>
+    </nav>
+    <div class="content">
+        <div class="content-left">
+            <h1>Your Events</h1>
+            {% if events %}
+                <ul>
+                    {% for event in events %}
+                        <li>
+                            <strong>{{ event.title }}</strong><br>
+                            Description: {{ event.description }}<br>
+                            Location: {{ event.location }}<br>
+                            Date and Time: {{ event.event_datetime|date:"F j, Y g:i A" }}<br>  <!-- Format the date -->
+                            Created By: {{ event.created_by.username }}<br>
+                            {% if request.user in event.participants.all %}
+                                <form method="POST" action="{% url 'respond_to_event' event.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" name="response" value="accept" class="btn btn-custom">Accept</button>
+                                    <button type="submit" name="response" value="reject" class="btn btn-custom">Reject</button>
+                                </form>
+                            {% else %}
+                                <span>You are not a participant.</span>
+                            {% endif %}
+                        </li>
+                        <hr>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No events found.</p>
+            {% endif %}
+            <a href="{% url 'create_event' %}" class="btn btn-custom">Create a New Event</a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

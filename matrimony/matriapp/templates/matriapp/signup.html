@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Form</title>
+    <!-- Load static files -->
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fff; /* White background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .navbar {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            background-color: #E57373; /* Midlight red color */
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 450px; /* Reduced width for a more compact form */
+            opacity: 0; /* Start fully transparent */
+            animation: fadeIn 1s forwards; /* Fade-in animation */
+            margin-top: 120px; /* Adjusted margin to place form lower */
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0; /* Start transparent */
+            }
+            to {
+                opacity: 1; /* End fully opaque */
+            }
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            font-size: 2rem; /* Larger font size for heading */
+        }
+        .form-header {
+            background-color: transparent;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+        h3 {
+            color: #555;
+            margin-bottom: 15px; /* Increased margin for better spacing */
+        }
+        a {
+            color: #E57373; /* Match the button color */
+        }
+        .btn-custom {
+            background-color: #E57373;
+            color: white;
+            border: none;
+            border-radius: 8px; /* Rounded corners */
+            padding: 12px 24px; /* Increased padding for a larger button */
+            margin-top: 15px; /* Increased margin above button */
+            font-weight: bold; /* Bold text */
+            font-size: 1rem; /* Increased font size for button */
+            transition: background-color 0.3s, transform 0.3s; /* Transition effects */
+        }
+        .btn-custom:hover {
+            background-color: #d64d4d; /* Darker shade for hover */
+            transform: scale(1.05); /* Slightly enlarge button on hover */
+        }
+        .navbar-brand img {
+            border-radius: 50%;
+            height: 30px;
+            width: 30px;
+        }
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent for input fields */
+            border: 1px solid #ccc; /* Light border for input fields */
+            border-radius: 4px; /* Rounded corners for input fields */
+            margin-bottom: 15px; /* Margin below each input field */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'images/matrilogo.jpg' %}" alt="Logo">
+        </a>
+    </nav>
+    <div class="form-container">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2>Sign Up</h2>
+            <h3>User Information</h3>
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+            {{ partner_preference_form.as_p }}
+            <button type="submit" class="btn-custom btn btn-block">Sign Up</button>
+            <h5 class="text-center">If you are already a user, <a href="/login">login</a>.</h5>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            const userInputs = document.querySelectorAll('input');
+            for (let input of userInputs) {
+                if (!input.value) {
+                    alert(`${input.name} is required.`);
+                    event.preventDefault(); // Prevent form submission
+                    return; // Exit the function
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!-- templates/matriapp/messages.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Messages</title>
+</head>
+<body>
+    <h1>Your Messages</h1>
+
+    <ul>
+        {% for message in messages %}
+            <li>
+                From: {{ message.sender.username }} - {{ message.content }} 
+                (Sent on: {{ message.timestamp }}) 
+                {% if not message.is_read %}
+                    <strong>(Unread)</strong>
+                {% endif %}
+            </li>
+            {% if not message.is_read %}
+                <!-- Mark as read -->
+                <form method="post" action="{% url 'mark_as_read' message.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Mark as Read</button>
+                </form>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <h2>Send a New Message</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ message_form.as_p }}
+        <button type="submit">Send Message</button>
+    </form>
+
+</body>
+</html>

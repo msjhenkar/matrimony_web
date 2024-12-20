@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Your Dashboard</h1>
+
+    <nav>
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="{% url 'create_profile' %}">Your Profile</a></li> 
+            <li><a href="{% url 'partner_preference' %}">Partner Preferences</a></li>
+            <li><a href="{% url 'messages_view' %}">Messages</a></li>
+            <li><a href="{% url 'chat_room' room_name='default_chat_room' %}">Chat Room</a></li>
+            <li><a href="{% url 'events_view' %}">Events</a></li>
+            <li><a href="{% url 'matches' %}">Find Matches</a></li>
+            <li><a href="{% url 'available_profiles' %}">Available Profiles</a></li>
+        </ul>
+    </nav>
+
+    <h2>Upcoming Events</h2>
+    {% if upcoming_events %}
+        <ul>
+            {% for event in upcoming_events %}
+                <li>{{ event.title }} on {{ event.event_datetime|date:"F j, Y" }} at {{ event.event_datetime|time:"g:i A" }} - Location: {{ event.location }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No upcoming events.</p>
+    {% endif %}
+
+    <h2>Message Notifications</h2>
+    {% if unread_messages %}
+        <ul>
+            {% for message in unread_messages %}
+                <li>From: {{ message.sender.username }} - {{ message.content }} (Sent on: {{ message.timestamp|date:"F j, Y g:i A" }})</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No new messages.</p>
+    {% endif %}
+
+    <h2>Your Partner Preference</h2>
+    {% if partner_preference %}
+        <p>Preferred Age Range: {{ partner_preference.min_age }} - {{ partner_preference.max_age }}</p>
+        <p>Preferred Religion: {{ partner_preference.religion }}</p>
+        <!-- Add more fields as necessary -->
+    {% else %}
+        <p>No partner preferences set.</p>
+    {% endif %}
+
+    <h2>Chat Room</h2>
+    <a href="{% url 'chat_room' room_name='default_chat_room' %}">Go to Chat Room</a>
+
+</body>
+</html>

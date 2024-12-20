@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Profiles</title>
+    <!-- Load static files -->
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif; /* Applied Google Font */
+            background-color: #fff; /* White background */
+            margin: 20px;
+        }
+        .navbar {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            background-color: #E57373; /* Midlight red color */
+            padding: 0 10px; /* Minimized padding */
+        }
+        .content {
+            padding-top: 70px; /* Adjusted for smaller navbar */
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2rem; /* Larger font size for heading */
+            font-weight: bold; /* Bold font */
+        }
+        ul {
+            list-style-type: none; /* Remove bullet points */
+            padding: 0; /* Remove padding */
+        }
+        li {
+            margin-bottom: 20px; /* Space between profiles */
+            padding: 10px;
+            border: 1px solid #ccc; /* Add border */
+            border-radius: 5px; /* Rounded corners */
+            background-color: #f9f9f9; /* Light background color */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+        .navbar-brand img {
+            border-radius: 50%;
+            height: 30px;
+            width: 30px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'images/matrilogo.jpg' %}" alt="Logo">
+        </a>
+    </nav>
+    <div class="content">
+        <h1>Available Profiles</h1>
+        <ul>
+            {% for profile in profiles %}
+                <li>{{ profile.user.username }} - {{ profile.location }} - Age: {{ profile.birth_date.year }}</li>
+                <!-- Add more fields as necessary -->
+            {% endfor %}
+        </ul>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

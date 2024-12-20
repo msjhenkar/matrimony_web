@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Matches</title>
+</head>
+<body>
+    <h2>Your Matches</h2>
+    <ul>
+        {% for match in matches %}
+            <li>{{ match.user.username }} - Score: {{ match.score }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
